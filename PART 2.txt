@@ -1,0 +1,176 @@
+SQL> create table department129(deptno number(3),job char(20));
+
+Table created.
+
+SQL> insert into department129 values(100,'general manager');
+
+1 row created.
+
+SQL> insert into department129 values(200,'sales manager');
+
+1 row created.
+
+SQL> insert into  department129 values(300,'accountant');
+
+1 row created.
+
+SQL> create view v1 as select ename,mgrssn from employee129 where deptno=(select deptno from department129 where job='general manager');
+
+View created.
+
+SQL> select * from v1;
+
+no rows selected
+
+SQL> drop view v1;
+
+View dropped.
+
+SQL> select empno,ename from employee129;
+
+no rows selected
+
+SQL> select empno,ename from employe129;
+select empno,ename from employe129
+                        *
+ERROR at line 1:
+ORA-00942: table or view does not exist 
+
+
+SQL> desc employee129
+ Name                                      Null?    Type
+ ----------------------------------------- -------- ----------------------------
+ EMPNO                                              NUMBER(5)
+ ENAME                                              VARCHAR2(19)
+ MGRSSN                                             NUMBER(5)
+ SALARY                                             NUMBER(7)
+ DEPTNO                                             NUMBER(3)
+
+SQL> select * from employee129;
+
+no rows selected
+
+SQL> insert into employee129 values(10000,'jai',11111,150000,2);
+
+1 row created.
+
+SQL> select * from employee129;
+
+     EMPNO ENAME                   MGRSSN     SALARY     DEPTNO                 
+---------- ------------------- ---------- ---------- ----------                 
+     10000 jai                      11111     150000          2                 
+
+SQL> insert into employee129 values(20000,'zeeshan',22222,60000,5);
+
+1 row created.
+
+SQL> insert into employee129 values(30000,'ishaan',33333,70000,1);
+
+1 row created.
+
+SQL> insert into employee129 values(40000,'kishan',44444,100000,3);
+
+1 row created.
+
+SQL> insert into employee129 values(50000,'maruthi',55555,20000,4);
+
+1 row created.
+
+SQL> select * from v1;
+select * from v1
+              *
+ERROR at line 1:
+ORA-00942: table or view does not exist 
+
+
+SQL> select empno,ename from employee129;
+
+     EMPNO ENAME                                                                
+---------- -------------------                                                  
+     10000 jai                                                                  
+     20000 zeeshan                                                              
+     30000 ishaan                                                               
+     40000 kishan                                                               
+     50000 maruthi                                                              
+
+SQL> select * from employee129 where ename='jai';
+
+     EMPNO ENAME                   MGRSSN     SALARY     DEPTNO                 
+---------- ------------------- ---------- ---------- ----------                 
+     10000 jai                      11111     150000          2                 
+
+SQL> slect * from employee129 order by empno,deptno;
+SP2-0734: unknown command beginning "slect * fr..." - rest of line ignored.
+SQL> select * from employee129 order by empno,deptno;
+
+     EMPNO ENAME                   MGRSSN     SALARY     DEPTNO                 
+---------- ------------------- ---------- ---------- ----------                 
+     10000 jai                      11111     150000          2                 
+     20000 zeeshan                  22222      60000          5                 
+     30000 ishaan                   33333      70000          1                 
+     40000 kishan                   44444     100000          3                 
+     50000 maruthi                  55555      20000          4                 
+
+SQL> grant all on employee129 to system;
+
+Grant succeeded.
+
+SQL> grant select,update,insert on department129 to system;
+
+Grant succeeded.
+
+SQL> revoke all on employee129 from public;
+
+Revoke succeeded.
+
+SQL> sacepoint s1;
+SP2-0734: unknown command beginning "sacepoint ..." - rest of line ignored.
+SQL> savepoint s1;
+
+Savepoint created.
+
+SQL> select * from employee129;
+
+     EMPNO ENAME                   MGRSSN     SALARY     DEPTNO                 
+---------- ------------------- ---------- ---------- ----------                 
+     10000 jai                      11111     150000          2                 
+     20000 zeeshan                  22222      60000          5                 
+     30000 ishaan                   33333      70000          1                 
+     40000 kishan                   44444     100000          3                 
+     50000 maruthi                  55555      20000          4                 
+
+SQL> select * from department129;
+
+    DEPTNO JOB                                                                  
+---------- --------------------                                                 
+       100 general manager                                                      
+       200 sales manager                                                        
+       300 accountant                                                           
+
+SQL> insert into employee129 values(66666,'rishabh',6000,15000,9);
+
+1 row created.
+
+SQL> insert into department129 values(400,'clerk');
+
+1 row created.
+
+SQL> rollback;
+
+Rollback complete.
+
+SQL> select * from employee129;
+
+     EMPNO ENAME                   MGRSSN     SALARY     DEPTNO                 
+---------- ------------------- ---------- ---------- ----------                 
+     10000 jai                      11111     150000          2                 
+     20000 zeeshan                  22222      60000          5                 
+     30000 ishaan                   33333      70000          1                 
+     40000 kishan                   44444     100000          3                 
+     50000 maruthi                  55555      20000          4                 
+
+SQL> commit;
+
+Commit complete.
+
+SQL> spool off
